@@ -1,0 +1,61 @@
+---
+
+app_package: "mysql-workbench-community"
+
+
+dependencias_debian:
+  - apt-transport-https
+  - build-essential 
+  - ca-certificates 
+  - curl
+  - gnupg2 
+  - software-properties-common
+
+
+lmde_debian_versions: {
+  "2" : "8",
+  "3" : "9",
+  "4" : "10",
+
+}
+
+
+debian_ubuntu_versions: {
+  "8"  : "trusty",
+  "9"  : "xenial",
+  "10" : "eoan"
+}
+
+
+mint_debian_versions: {
+  "3" : "stretch",
+  "4" : "buster"
+}
+
+
+mint_ubuntu_versions: {
+  "17" : "trusty",
+  "18" : "xenial",
+  "19" : "bionic"
+}
+
+
+mint_lmde_versions :
+  - betsy
+  - cindy
+  - debbie
+
+
+mint_versions :
+  - qiana
+  - rebecca
+  - rafaela
+  - rosa 
+  - sarah
+  - serena
+  - sonya
+  - sylvia
+  - tara
+  - tessa
+  - tina
+  - tricia

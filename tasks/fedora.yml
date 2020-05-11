@@ -1,0 +1,23 @@
+---
+
+
+- name: "Copiando arquivo de repositório do pacote {{ app_package }}"
+  copy:
+    src: "mysql-workbench-community-fedora.repo"
+    dest: "/etc/yum.repos.d/mysql-workbench-community.repo"
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  tags:
+    - repo
+
+
+- name: "Instalando o pacote {{ app_package }}"
+  dnf:
+    name: "{{ app_package }}"
+    state: present
+    disable_gpg_check: yes
+  become: true
+  tags:
+    - workbench

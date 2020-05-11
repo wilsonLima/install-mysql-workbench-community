@@ -1,0 +1,96 @@
+---
+
+
+- name: "Instalando o pacote dependencias para distribuições baseadas no debian"
+  apt:
+    name: "{{ dependencias_debian }}"
+    state: present
+    update_cache: yes
+  become: true
+  tags:
+    - repo
+
+
+- name: "Importando a chave do repositorio do pacote {{ app_package }} para a distribuição Debian, Ubuntu ou Linux Mint"
+  when: ansible_distribution_release not in mint_lmde_versions
+  apt_key:
+    keyserver: "hkp://pgp.mit.edu:80"
+    id: "5072E1F5"
+    state: present
+  environment:
+    APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE: 1
+  become: true
+  tags:
+    - repo
+
+
+- name: "Copiando a chave do repositorio do pacote {{ app_package }} para a distribuição Linux Mint LMDE"
+  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_lmde_versions
+  copy:
+    src: "mysql_pubkey.asc"
+    dest: "/tmp/mysql_pubkey.asc"
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  tags:
+    - repo
+
+
+- name: "Importando a chave do repositorio do pacote {{ app_package }} para a distribuição Linux Mint LMDE"
+  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_lmde_versions
+  apt_key:
+    file: "/tmp/mysql_pubkey.asc"
+    state: present
+  become: true
+  tags:
+    - repo
+
+
+- name: "Copiando arquivo de repositório do pacote {{ app_package }} para a distribuição Debian ou Ubuntu"
+  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+  template:
+    src: "mysql-workbench-community.list.j2"
+    dest: "/etc/apt/sources.list.d/mysql-workbench-community.list"
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  tags:
+    - repo
+
+
+- name: "Copiando arquivo de repositório do pacote {{ app_package }} para a distribuição Linux Mint"
+  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_versions
+  template:
+    src: "mysql-workbench-community-mint.list.j2"
+    dest: "/etc/apt/sources.list.d/mysql-workbench-community.list"
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  tags:
+    - repo
+
+
+- name: "Copiando arquivo de repositório do pacote {{ app_package }} para a distribuição Linux Mint LMDE"
+  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_lmde_versions
+  template:
+    src: "mysql-workbench-community-lmde.list.j2"
+    dest: "/etc/apt/sources.list.d/mysql-workbench-community.list"
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  tags:
+    - repo
+
+
+- name: "Instalando o pacote {{ app_package }}"
+  apt:
+    name: "{{ app_package }}"
+    state: present
+    update_cache: yes
+  become: true
+  tags:
+    - workbench
