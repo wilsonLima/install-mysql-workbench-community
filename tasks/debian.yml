@@ -14,7 +14,7 @@
 - name: "Importando a chave do repositorio do pacote {{ app_package }} para a distribuição Debian, Ubuntu ou Linux Mint"
   when: ansible_distribution_release not in mint_lmde_versions
   apt_key:
-    keyserver: "hkp://pgp.mit.edu:80"
+    keyserver: "hkp://keys.gnupg.net:80"
     id: "5072E1F5"
     state: present
   environment:
@@ -54,7 +54,7 @@
     dest: "/etc/apt/sources.list.d/mysql-workbench-community.list"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   become: true
   tags:
     - repo
@@ -67,7 +67,7 @@
     dest: "/etc/apt/sources.list.d/mysql-workbench-community.list"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   become: true
   tags:
     - repo
@@ -80,7 +80,7 @@
     dest: "/etc/apt/sources.list.d/mysql-workbench-community.list"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   become: true
   tags:
     - repo
