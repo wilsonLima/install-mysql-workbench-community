@@ -30,6 +30,7 @@
     name: "{{ app_package }}"
     state: present
     force: yes
+    update_cache: yes
   become: true
   tags:
     - workbench
