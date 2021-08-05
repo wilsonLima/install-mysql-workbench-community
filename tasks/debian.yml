@@ -1,31 +1,24 @@
 ---
 
 
-- name: "Instalando o pacote dependencias para distribuições baseadas no debian"
-  apt:
-    name: "{{ dependencias_debian }}"
-    state: present
-    update_cache: yes
+- name: "Atualizando apt cache"
+  apt: 
+    update_cache: yes 
+    cache_valid_time: 7200
   become: true
   tags:
     - repo
 
-
-- name: "Importando a chave do repositorio do pacote {{ app_package }} para a distribuição Debian, Ubuntu ou Linux Mint"
-  when: ansible_distribution_release not in mint_lmde_versions
-  apt_key:
-    keyserver: "hkp://keys.gnupg.net:80"
-    id: "5072E1F5"
+- name: "Instalando os pacotes de dependencias para distribuições baseadas no debian"
+  apt:
+    name: "{{ dependencias_debian }}"
     state: present
-  environment:
-    APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE: 1
   become: true
   tags:
     - repo
 
 
 - name: "Copiando a chave do repositorio do pacote {{ app_package }} para a distribuição Linux Mint LMDE"
-  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_lmde_versions
   copy:
     src: "mysql_pubkey.asc"
     dest: "/tmp/mysql_pubkey.asc"
@@ -38,7 +31,6 @@
 
 
 - name: "Importando a chave do repositorio do pacote {{ app_package }} para a distribuição Linux Mint LMDE"
-  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_lmde_versions
   apt_key:
     file: "/tmp/mysql_pubkey.asc"
     state: present
@@ -85,12 +77,18 @@
   tags:
     - repo
 
+- name: "Atualizando apt cache"
+  apt: 
+    update_cache: yes 
+    cache_valid_time: 7200
+  become: true
+  tags:
+    - repo
 
 - name: "Instalando o pacote {{ app_package }}"
   apt:
     name: "{{ app_package }}"
     state: present
-    update_cache: yes
   become: true
   tags:
     - workbench
