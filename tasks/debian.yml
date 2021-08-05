@@ -89,6 +89,7 @@
   apt:
     name: "{{ app_package }}"
     state: present
+    update_cache: yes 
   become: true
   tags:
     - workbench
