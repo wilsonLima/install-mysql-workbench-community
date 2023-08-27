@@ -1,0 +1,6 @@
+---
+
+
+- debug: 
+    msg: Distribuição Linux não suportada
+  register: mysql_work_unsupported_os

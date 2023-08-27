@@ -1,6 +1,15 @@
 ---
 
 
+- name: "Importando a chave do repositório do pacote {{ app_package }}"
+  rpm_key:
+    state: present
+    key: https://repo.mysql.com/RPM-GPG-KEY-mysql
+  become: true
+  tags:
+    - repo
+
+
 - name: "Copiando arquivo de repositório do pacote {{ app_package }}"
   copy:
     src: "mysql-workbench-community-fedora.repo"

@@ -40,7 +40,6 @@
 
 
 - name: "Copiando arquivo de repositório do pacote {{ app_package }} para a distribuição Debian ou Ubuntu"
-  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
   template:
     src: "mysql-workbench-community.list.j2"
     dest: "/etc/apt/sources.list.d/mysql-workbench-community.list"
@@ -52,31 +51,6 @@
     - repo
 
 
-- name: "Copiando arquivo de repositório do pacote {{ app_package }} para a distribuição Linux Mint"
-  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_versions
-  template:
-    src: "mysql-workbench-community-mint.list.j2"
-    dest: "/etc/apt/sources.list.d/mysql-workbench-community.list"
-    owner: root
-    group: root
-    mode: "0644"
-  become: true
-  tags:
-    - repo
-
-
-- name: "Copiando arquivo de repositório do pacote {{ app_package }} para a distribuição Linux Mint LMDE"
-  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_lmde_versions
-  template:
-    src: "mysql-workbench-community-lmde.list.j2"
-    dest: "/etc/apt/sources.list.d/mysql-workbench-community.list"
-    owner: root
-    group: root
-    mode: "0644"
-  become: true
-  tags:
-    - repo
-
 - name: "Atualizando apt cache"
   apt: 
     update_cache: yes 
@@ -84,6 +58,7 @@
   become: true
   tags:
     - repo
+
 
 - name: "Instalando o pacote {{ app_package }}"
   apt:

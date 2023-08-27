@@ -1,0 +1,77 @@
+---
+
+
+- name: "Atualizando apt cache"
+  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_versions
+  apt: 
+    update_cache: yes 
+    cache_valid_time: 7200
+  become: true
+  tags:
+    - repo
+
+- name: "Instalando os pacotes de dependencias para distribuições baseadas no debian"
+  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_versions
+  apt:
+    name: "{{ dependencias_debian }}"
+    state: present
+  become: true
+  tags:
+    - repo
+
+
+- name: "Copiando a chave do repositorio do pacote {{ app_package }} para a distribuição Linux Mint"
+  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_versions
+  copy:
+    src: "mysql_pubkey.asc"
+    dest: "/tmp/mysql_pubkey.asc"
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  tags:
+    - repo
+
+
+- name: "Importando a chave do repositorio do pacote {{ app_package }} para a distribuição Linux Mint"
+  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_versions
+  apt_key:
+    file: "/tmp/mysql_pubkey.asc"
+    state: present
+  become: true
+  tags:
+    - repo
+
+
+- name: "Copiando arquivo de repositório do pacote {{ app_package }} para a distribuição Linux Mint"
+  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_versions
+  template:
+    src: "mysql-workbench-community-mint.list.j2"
+    dest: "/etc/apt/sources.list.d/mysql-workbench-community.list"
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  tags:
+    - repo
+
+
+- name: "Atualizando apt cache"
+  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_versions
+  apt: 
+    update_cache: yes 
+    cache_valid_time: 7200
+  become: true
+  tags:
+    - repo
+
+
+- name: "Instalando o pacote {{ app_package }}"
+  when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_versions
+  apt:
+    name: "{{ app_package }}"
+    state: present
+    update_cache: yes 
+  become: true
+  tags:
+    - workbench
