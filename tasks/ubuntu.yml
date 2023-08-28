@@ -7,9 +7,10 @@
     cache_valid_time: 7200
   become: true
   tags:
+    - deps
     - repo
 
-- name: "Instalando os pacotes de dependencias para distribuições baseadas no debian"
+- name: "Instalando os pacotes de dependencias para distribuições baseadas no Ubuntu"
   apt:
     name: "{{ dependencias_debian }}"
     state: present
@@ -18,7 +19,7 @@
     - repo
 
 
-- name: "Copiando a chave do repositorio do pacote {{ app_package }} para a distribuição Linux Mint LMDE"
+- name: "Copiando a chave do repositorio do pacote {{ app_package }} para a distribuição Ubuntu"
   copy:
     src: "mysql_pubkey.asc"
     dest: "/tmp/mysql_pubkey.asc"
@@ -30,7 +31,7 @@
     - repo
 
 
-- name: "Importando a chave do repositorio do pacote {{ app_package }} para a distribuição Linux Mint LMDE"
+- name: "Importando a chave do repositorio do pacote {{ app_package }} para a distribuição Ubuntu"
   apt_key:
     file: "/tmp/mysql_pubkey.asc"
     state: present
@@ -39,7 +40,7 @@
     - repo
 
 
-- name: "Copiando arquivo de repositório do pacote {{ app_package }} para a distribuição Debian ou Ubuntu"
+- name: "Copiando arquivo de repositório do pacote {{ app_package }} para a distribuição Ubuntu"
   template:
     src: "mysql-workbench-community.list.j2"
     dest: "/etc/apt/sources.list.d/mysql-workbench-community.list"

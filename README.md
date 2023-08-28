@@ -17,6 +17,7 @@ Tags da Role
 - main: Tag a ser utilizada em conjunto com outras tags, se alguma tag for especificada no comando.
   
 - repo: Inclui todos os repositórios da role no Sistema.
+- deps: Instala as dependências da role.
 - workbench: Instala o Mysql Workbench Community.
 
 

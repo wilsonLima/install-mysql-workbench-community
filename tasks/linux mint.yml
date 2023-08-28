@@ -10,13 +10,14 @@
   tags:
     - repo
 
-- name: "Instalando os pacotes de dependencias para distribuições baseadas no debian"
+- name: "Instalando os pacotes de dependencias para distribuições baseadas no Linux Mint"
   when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_versions
   apt:
     name: "{{ dependencias_debian }}"
     state: present
   become: true
   tags:
+    - deps
     - repo
 
 
