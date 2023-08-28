@@ -67,7 +67,7 @@
     - repo
 
 
-- name: "Instalando o pacote {{ app_package }}"
+- name: "Instalando o pacote {{ app_package }} na distribuição Linux Mint"
   when: ansible_distribution == "Linux Mint" and ansible_distribution_release in mint_versions
   apt:
     name: "{{ app_package }}"

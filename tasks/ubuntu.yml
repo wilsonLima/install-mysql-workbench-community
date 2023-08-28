@@ -61,7 +61,7 @@
     - repo
 
 
-- name: "Instalando o pacote {{ app_package }}"
+- name: "Instalando o pacote {{ app_package }} no Ubuntu"
   apt:
     name: "{{ app_package }}"
     state: present
